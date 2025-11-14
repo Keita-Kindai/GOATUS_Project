@@ -17,7 +17,6 @@ import DiscoverScreen from "../screens/DiscoverScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import OrgProfileScreen from "../screens/OrgProfileScreen";
 
-
 export default function GoatusUiMock() {
   const [active, setActive] = useState("feed");
 
@@ -25,9 +24,9 @@ export default function GoatusUiMock() {
 
   return (
 
-    <div className={cx("h-screen text-white flex flex-col", bg)}>
+    <div className={cx("h-screen text-white flex flex-col items-center", bg)}>
       
-      <div className="mx-auto w-full max-w-[480px] relative flex-grow overflow-y-auto">
+      <div className="w-full max-w-[480px] h-full relative overflow-y-auto flex flex-col">
         
         {active === "feed" && <FeedScreen onOpenOrg={() => setActive("org")} />}
         {active === "discover" && <DiscoverScreen />}
@@ -57,9 +56,12 @@ export default function GoatusUiMock() {
         {active === "mypage" && <div className={minContentHeight}><ProfileScreen /></div>}
         
         {active === "org" && <OrgProfileScreen onBack={() => setActive("feed")} />}
-      </div>
 
-      <BottomTab active={active} setActive={setActive} />
+      </div>
+      
+      <div className="absolute bottom-0 w-full max-w-[480px]">
+        <BottomTab active={active} setActive={setActive} />
+      </div>
     </div>
   );
 }
