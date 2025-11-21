@@ -20,20 +20,26 @@ interface ProfileScreenProps {
 
 export default function ProfileScreen({ profile, onEdit }: ProfileScreenProps) {
   return (
-    <div>
+    <>
       {/* Top Navigation Bar */}
       <TopNav />
-      
-      <div className="px-4 pb-28"> {/* pb-28: ボトムタブ用のパディング */}
         
+      {/* メインコンテンツエリア (パディングとボトムタブ用スペース) */}
+      <div className="px-4 pb-28">
+          
         {/* プロフィール概要と編集ボタン */}
         <div className="flex items-start justify-between mt-2">
+          
+          {/* アバターとアカウント名 */}
           <div className="flex items-center gap-4">
-            <Avatar label={profile.accountName.charAt(0)} />
+            <Avatar label={"/images/default-icon.webp"} />
             <div>
               <div className="text-2xl font-bold">{profile.accountName}</div>
               <div className="text-sm text-white/60">0 フォロー中 ・ 0 パーソナルスポンサー</div>
             </div>
+          </div>
+          
+          {/* 編集ボタン */}
           <button 
             onClick={onEdit}
             className="flex items-center gap-1 text-sm text-white/70 hover:text-white p-2 rounded-full"
@@ -41,15 +47,16 @@ export default function ProfileScreen({ profile, onEdit }: ProfileScreenProps) {
             <Edit2 className="h-4 w-4" />
             編集
           </button>
-        </div>
-
+        </div> {/* プロフィール概要のflex divをここで閉じる */}
+        
         {/* 詳細情報 */}
         <div className="mt-4 space-y-3">
-            <p className="text-sm text-white/80 font-semibold">自己紹介</p>
-            <p className="text-white/60 whitespace-pre-wrap">{profile.bio}</p>
-            
-            <p className="text-sm text-white/80 font-semibold pt-2">居住地</p>
-            <p className={subtext}>{profile.residence}</p>
+          <p className="text-sm text-white/80 font-semibold">自己紹介</p>
+          {/* 改行を反映させるための whitespace-pre-wrap は既に適用されています 👍 */}
+          <p className="text-white/60 whitespace-pre-wrap">{profile.bio}</p>
+          
+          <p className="text-sm text-white/80 font-semibold pt-2">居住地</p>
+          <p className={subtext}>{profile.residence}</p>
         </div>
 
 
@@ -62,7 +69,8 @@ export default function ProfileScreen({ profile, onEdit }: ProfileScreenProps) {
 
         {/* 広告バナー */}
         <AdBanner label="NetApp" />
+          
       </div>
-    </div>
+    </>
   );
 }
