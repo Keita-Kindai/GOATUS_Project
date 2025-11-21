@@ -10,7 +10,7 @@ export default function ProfileScreen() {
       <TopNav />
       <div className="px-4 pb-28">
         <div className="flex items-center gap-4 mt-2">
-          <Avatar label="G" />
+          <Avatar label="/images/goatus_logo.png" />
           <div>
             <div className="text-2xl font-bold">マイページ</div>
             <div className="text-sm text-white/60">0 フォロー中 ・ 0 パーソナルスポンサー</div>
