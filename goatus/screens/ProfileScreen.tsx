@@ -34,7 +34,6 @@ export default function ProfileScreen({ profile, onEdit }: ProfileScreenProps) {
               <div className="text-2xl font-bold">{profile.accountName}</div>
               <div className="text-sm text-white/60">0 フォロー中 ・ 0 パーソナルスポンサー</div>
             </div>
-          </div>
           <button 
             onClick={onEdit}
             className="flex items-center gap-1 text-sm text-white/70 hover:text-white p-2 rounded-full"
