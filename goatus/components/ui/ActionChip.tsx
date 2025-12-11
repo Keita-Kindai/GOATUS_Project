@@ -19,7 +19,7 @@ export default function ActionChip({ icon: Icon, count }: ActionChipProps) {
     };
 
     return (
-        <button className={`flex items-center gap-2 rounded-2xl px-3 py-1.5 border border-white/10 text-white/80 ${liked ? "hover:bg-gray-500" : "hover:bg-white/5"} transition ${liked ? "bg-orange-400" : "transparent"} `} onClick={update}>
+        <button className={`flex items-center gap-2 rounded-2xl px-3 py-1.5 border border-white/10 hover:cursor-pointer text-white/80 ${liked ? "hover:bg-gray-500" : "hover:bg-white/5"} transition ${liked ? "bg-orange-400" : "transparent"} `} onClick={update}>
             <Icon className={`h-4 w-4`} />
             <span className="text-sm tabular-nums">{cnt}</span>
         </button>
