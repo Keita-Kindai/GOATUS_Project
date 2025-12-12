@@ -17,7 +17,7 @@ export default function BottomTab({ active, setActive }: BottomTabProps) {
    { key: "mypage", label: "マイページ", icon: User },
  ];
  return (
-   <div className="sticky bottom-0 z-40">
+   <div className="sticky bottom-0 z-20">
      <div className={cx("pb-2 pt-3", bg, "border-t border-white/10")}>
        <div className="relative">
          {/* floating + */}
