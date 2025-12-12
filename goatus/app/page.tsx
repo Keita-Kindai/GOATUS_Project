@@ -1,10 +1,7 @@
 // app/page.tsx
 "use client"
 import React, { useState, useEffect } from "react"; 
-import {
-  Plus,
-  Handshake,
-} from "lucide-react";
+import { Plus, Handshake } from "lucide-react";
 
 // Components
 import { cx, bg } from "../components/colors";
@@ -18,11 +15,11 @@ import ProfileScreen from "../screens/ProfileScreen";
 import OrgProfileScreen from "../screens/OrgProfileScreen";
 import ProfileEditScreen from "../screens/ProfileEditScreen";
 
-// ★ Server Actionの読み込み関数と保存関数をインポート
+// Server Action
 import { readProfileData, saveProfileData } from "../actions/profileActions"; 
 
 // ------------------------------------------------------------
-// ロード中の初期データ（読み込みが完了するまで表示）
+// ロード中の初期データ
 // ------------------------------------------------------------
 const LOADING_PROFILE_DATA = {
   accountName: "ロード中...",
@@ -31,20 +28,16 @@ const LOADING_PROFILE_DATA = {
 };
 
 // ------------------------------------------------------------
-// GOATUS — UI Mock (Server Actionでファイル書き込み対応)
+// メインコンポーネント
 // ------------------------------------------------------------
-
 export default function GoatusUiMock() {
   const [active, setActive] = useState("feed");
-  
-  // ★ 初期値を設定し、ロード状態を管理
   const [profileData, setProfileData] = useState(LOADING_PROFILE_DATA);
   const [isLoading, setIsLoading] = useState(true);
 
-  // ★ 起動時にServer Actionを使ってデータをファイルから読み込む
+  // 起動時にサーバーからデータを読み込む
   useEffect(() => {
     const loadData = async () => {
-      // Server Action (readProfileData) を呼び出し、サーバーでファイルアクセス
       const data = await readProfileData();
       setProfileData(data);
       setIsLoading(false);
@@ -52,93 +45,118 @@ export default function GoatusUiMock() {
     loadData();
   }, []); 
 
-  // ★ データを保存する関数をカスタマイズ (Server Actionを呼び出し)
+  // データ保存
   const handleProfileSave = async (data) => {
-    // 1. 状態を更新して、画面に即時反映
-    setProfileData(data); 
-
-    // 2. Server Actionを呼び出し、ファイルに直接書き込む
+    setProfileData(data);
     const result = await saveProfileData(data);
-
     if (result.success) {
-      console.log("✅ ファイルへの書き込みが完了しました:", result.message);
+      console.log("✅ ファイルへの書き込みが完了:", result.message);
     } else {
-      console.error("❌ ファイルへの書き込みに失敗しました:", result.message);
+      console.error("❌ 書き込み失敗:", result.message);
     }
   };
 
-
-  // ロード中の表示
   if (isLoading) {
-      return (
-        <div className={cx("h-screen text-white flex flex-col items-center justify-center", bg)}>
-            <p>ファイルからデータ読み込み中...</p>
-        </div>
-      );
+    return (
+      <div className={cx("h-screen text-white flex flex-col items-center justify-center", bg)}>
+        <p>ファイルからデータ読み込み中...</p>
+      </div>
+    );
   }
 
-  // レイアウト修正: TopNavとBottomTabの高さを引いた最小高さをコンテンツエリアに設定
+  // コンテンツ最小高さ
   const minContentHeight = "min-h-[calc(100svh-140px)]";
 
   return (
     <div className={cx("h-screen text-white flex flex-col items-center", bg)}>
-      
       <div className="w-full max-w-[480px] h-full relative overflow-y-auto flex flex-col">
-        
+
+        {/* Feed / Discover / Mypage / Org */}
         {active === "feed" && <FeedScreen onOpenOrg={() => setActive("org")} />}
         {active === "discover" && <DiscoverScreen />}
 
-        {/* 投稿画面 */}
+        {/* 投稿モーダル（下寄せ + 上半分透明） */}
         {active === "post" && (
-          <div className={minContentHeight}>
-            <TopNav />
-            <div className="px-6 py-10 text-center space-y-4">
-              <div className="text-4xl">➕</div>
-              <div className="text-lg">投稿のプレースホルダー</div>
-              <p className="text-white/60">実装不要とのことなので、ここはダミー画面です。</p>
+          <div className="fixed inset-0 z-[9999] flex flex-col justify-end pointer-events-none">
+
+            {/* 上半分：透過部分 */}
+            <div className="flex-1 bg-black/0 pointer-events-none"></div>
+
+            {/* 下半分：投稿エリア */}
+            <div className="bg-black w-full max-w-[480px] mx-auto rounded-t-2xl p-6 pointer-events-auto relative">
+
+              {/* × ボタン */}
+              <button
+                onClick={() => setActive("feed")}
+                className="absolute top-4 right-4 text-white/70 hover:text-white text-2xl"
+              >
+                ×
+              </button>
+
+              {/* 見出し */}
+              <h2 className="text-white font-bold text-lg mb-4">投稿を作成</h2>
+
+              {/* テキストエリア */}
+              <textarea
+                className="w-full h-32 bg-black text-white placeholder-white/40 resize-none outline-none border border-white/20 rounded-xl p-4"
+                placeholder="あなたの活動を共有"
+              />
+
+              {/* 下部：アイコンボタン + 限定公開 + 投稿ボタン */}
+              <div className="flex justify-between items-center mt-4">
+
+                {/* 左：写真、カメラ、絵文字 */}
+                <div className="flex items-center space-x-4 text-white/80">
+                  <button className="text-xl hover:text-white active:scale-95">🖼️</button>
+                  <button className="text-xl hover:text-white active:scale-95">📷</button>
+                  <button className="text-xl hover:text-white active:scale-95">😊</button>
+
+                  {/* 限定公開チェック */}
+                  <label className="flex items-center space-x-2 text-white text-sm">
+                    <input type="checkbox" className="w-4 h-4 accent-blue-500" />
+                    <span>限定公開</span>
+                  </label>
+                </div>
+
+                {/* 投稿ボタン */}
+                <button
+                  onClick={() => setActive("feed")}
+                  className="bg-blue-500 text-white font-bold px-4 py-2 rounded-full active:scale-95"
+                >
+                  投稿
+                </button>
+              </div>
             </div>
           </div>
         )}
 
         {/* コミュニティ画面 */}
         {active === "community" && (
-  <div className={minContentHeight}>
-    <TopNav />
+          <div className={minContentHeight}>
+            <TopNav />
 
-    {/* 1. 一番上：コミュニティ（中央） */}
-    <div className="px-6 py-4 flex justify-center">
-      <h1 className="text-white text-xl font-bold text-center">コミュニティ</h1>
-    </div>
+            <div className="px-6 py-4 flex justify-center">
+              <h1 className="text-white text-xl font-bold text-center">コミュニティ</h1>
+            </div>
 
-    {/* 2. 二番目：トークルーム（左寄せ） */}
-    <div className="px-6 py-2">
-      <h2 className="text-white text-lg font-semibold text-left">トークルーム</h2>
-    </div>
+            <div className="px-6 py-2">
+              <h2 className="text-white text-lg font-semibold text-left">トークルーム</h2>
+            </div>
 
-    {/* 3. 三番目：+ 新しいチャットを始める（中央） */}
-<div className="px-6 py-6 flex justify-center">
-  <button
-    className="
-      text-white text-base font-medium 
-      flex items-center gap-2
-      border border-white               /* ← 白線の四角 */
-      rounded-lg                        /* ← 角丸 */
-      px-4 py-2                          /* ← 余白 */
-      bg-white/5                         /* ← わずかに背景を乗せたい場合（任意）*/
-    "
-  >
-    <span className="text-2xl"></span>＋　あたらしいチャットを始める　　　　　　　　　　
-  </button>
-</div>
+            <div className="px-6 py-6 flex justify-center">
+              <button
+                className="text-white text-base font-medium flex items-center gap-2 border border-white rounded-lg px-4 py-2 bg-white/5"
+              >
+                <span className="text-2xl"></span>＋　あたらしいチャットを始める
+              </button>
+            </div>
 
-
-    {/* 追加：下に元のダミー表記（必要なら残す） */}
-    <div className="px-6 py-10 text-center space-y-4">
-      <div className="text-4xl"></div>
-      <p className="text-white/60"></p>
-    </div>
-  </div>
-)}
+            <div className="px-6 py-10 text-center space-y-4">
+              <div className="text-4xl"></div>
+              <p className="text-white/60"></p>
+            </div>
+          </div>
+        )}
 
         {/* マイページ画面 */}
         {active === "mypage" && (
@@ -149,18 +167,18 @@ export default function GoatusUiMock() {
             />
           </div>
         )}
-        
+
         {/* プロフィール編集画面 */}
         {active === "edit_profile" && (
           <div className={minContentHeight}>
             <ProfileEditScreen
               profile={profileData}
-              onSave={handleProfileSave} // ★ Server Actionを呼び出す関数を適用
+              onSave={handleProfileSave}
               onBack={() => setActive("mypage")}
             />
           </div>
         )}
-        
+
         {active === "org" && <OrgProfileScreen onBack={() => setActive("feed")} />}
       </div>
 

@@ -4,8 +4,8 @@ import Image from "next/image";
 import { BadgeCheck } from "lucide-react";
 
 interface AvatarProps {
-  label?: string;
-  badge?: boolean;
+ label?: string;
+ badge?: boolean;
 }
 
 export default function Avatar({ label = "/public/images/goatus_logo.png", badge = false }: AvatarProps) {
