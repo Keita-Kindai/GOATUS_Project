@@ -8,7 +8,7 @@ import { Bell, Search, Menu } from "lucide-react";
 import { cx, bg } from "../colors";
 
 interface TopNavProps {
-  withSearch?: boolean;
+ withSearch?: boolean;
 }
 
 export default function TopNav({ withSearch = false }: TopNavProps) {

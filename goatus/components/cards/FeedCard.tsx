@@ -9,12 +9,12 @@ import { BiSolidVolumeMute } from "react-icons/bi";
 import { FaBan } from "react-icons/fa";
 
 import {
-  Share2,
-  MoreHorizontal,
-  ThumbsUp,
-  Megaphone,
-  Upload,
-  ShieldCheck,
+ Share2,
+ MoreHorizontal,
+ ThumbsUp,
+ Megaphone,
+ Upload,
+ ShieldCheck,
 } from "lucide-react";
 import Avatar from "../ui/Avatar";
 import ActionChip from "../ui/ActionChip";
