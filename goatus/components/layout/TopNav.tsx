@@ -70,4 +70,3 @@ export default function TopNav({ withSearch = false }: TopNavProps) {
         </div>
     );
 }
-
