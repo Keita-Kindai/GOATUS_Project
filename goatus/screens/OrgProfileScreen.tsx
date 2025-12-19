@@ -42,15 +42,19 @@ export default function OrgProfileScreen({ onBack }: OrgProfileScreenProps) {
      <div className="px-4 pb-28">
        <div className="mt-4 rounded-2xl border border-white/10 overflow-hidden">
          <div className={cx("p-4", card)}>
-           <div className="text-white/70 text-sm">メッセージ</div>
-           <div className="mt-3">GOATUS運営の公式アカウントです。</div>
-           <div className="text-center text-white/40 mt-3">すべて見る</div>
-         </div>
-       </div>
+           <div className="flex items-center justify-between">
+             <div>
+               <div className="text-white/70 text-sm">投稿</div>
+               <div className="mt-2 text-sm">GOATUS運営の公式アカウントの最新投稿を表示します。</div>
+             </div>
+             <button className="text-sm text-white/40">すべて見る</button>
+           </div>
 
-       <div className="mt-2">
-         {/* onOpenは、プロフィールの戻る処理とは異なるため、ここではダミー関数を渡します */}
-         <FeedCard onOpen={onOpenDummy} imageSrc={"/images/goatus_logo.png"} userName={"Goatus公式"} contents={"本日のおすすめ情報をお届け！！\n今回は私たちのアプリケーションがなんとGOOD DESIGN AWARDに選ばれました！！！！！　これは私たちの力だけはなく、普段からこのアプリを使用している皆様、そして活用してくれているスポーツ選手の皆様のおかげでもあります。心から本当に感謝を申し上げます。"} images={"/images/Award.png"}/>
+           <div className="mt-4 space-y-3">
+             <FeedCard onOpen={onOpenDummy} compact imageSrc={'/images/goatus_logo.png'} userName={'Goatus公式'} contents={'本日のおすすめ情報をお届け！！\n今回は私たちのアプリケーションがなんとGOOD DESIGN AWARDに選ばれました！！！！！　これは私たちの力だけはなく、普段からこのアプリを使用している皆様、そして活用してくれているスポーツ選手の皆様のおかげでもあります。心から本当に感謝を申し上げます。'} images={'/images/Award.png'} />
+             {/* 他の投稿を追加する場合はここに FeedCard (compact) を追加 */}
+           </div>
+         </div>
        </div>
      </div>
    </div>

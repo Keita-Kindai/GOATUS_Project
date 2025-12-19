@@ -4,6 +4,7 @@ import TopNav from "../components/layout/TopNav";
 import Image from "next/image";
 import Avatar from "../components/ui/Avatar";
 import AdBanner from "../components/ui/AdBanner";
+import FeedCard from "../components/cards/FeedCard";
 import { Calendar, MapPin, Users, Edit2, Trophy, CreditCard } from "lucide-react";
 import { cx } from "../components/colors";
 
@@ -94,14 +95,18 @@ function InfoTabsCard() {
       {/* タブコンテンツ */}
       <div className="p-6">
         {activeInfoTab === "card" && (
-          <div className="text-center py-6">
-            <div className="mx-auto h-20 w-24 rounded-lg bg-white/5 grid place-items-center text-4xl mb-4">
-              🪪
+          <div className="py-4">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <div className="font-semibold text-lg">投稿</div>
+                <div className="text-sm text-white/60">このアスリートの最新投稿を表示します</div>
+              </div>
+              <button className="text-sm text-white/40">すべて見る</button>
             </div>
-            <div className="font-semibold text-lg mb-3">アスリートカード</div>
-            <p className="text-sm text-white/60 leading-relaxed max-w-md mx-auto">
-              好きなアスリートのパーソナルスポンサーになってアスリートカードをゲットしよう！
-            </p>
+
+            <div className="space-y-3">
+              <FeedCard compact onOpen={() => {}} imageSrc={'/images/goatus_logo.png'} userName={'公式 GOATUS'} contents={'本日のおすすめ情報をお届け！！今回は私たちのアプリケーションがなんとGOOD DESIGN AWARDに選ばれました！！！！！　これは私たちの力だけはなく、普段からこのアプリを使用している皆様、そして活用してくれているスポーツ選手の皆様のおかげでもあります。心から本当に感謝を申し上げます。'} images={'/images/Award.png'} />
+            </div>
           </div>
         )}
 

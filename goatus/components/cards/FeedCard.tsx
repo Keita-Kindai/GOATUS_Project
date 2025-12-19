@@ -22,20 +22,23 @@ import { cx, card, subtext } from "../colors";
 
 interface FeedCardProps {
   onOpen: () => void;
+  compact?: boolean;
 
   /**
    * 表示する画像の相対パス（例: './images/my_feed_image.jpg'）
    * * Next.jsのpublicフォルダからの絶対パス（例: '/images/my_feed_image.jpg'）でも可
    */
-  imageSrc: string; // この行を追加する
-  userName: string; // ユーザーネーム
-  contents: string; // 投稿内容
+  imageSrc: string;
+  userName: string;
+  contents: string;
   images: string;
 }
 
 type ActiveMenu = 'none' | 'detail' | 'share';
 
-export default function FeedCard({ onOpen, imageSrc, userName, contents, images}: FeedCardProps ) {
+export default function FeedCard({ onOpen, imageSrc, userName, contents, images, compact = false}: FeedCardProps ) {
+
+    const containerClass = compact ? "rounded-lg overflow-hidden mb-4 border border-white/10" : "rounded-2xl overflow-hidden mx-4 mb-4 border border-white/10";
 
     const [activeMenu, setActiveMenu] = useState<ActiveMenu>('none');
 
@@ -68,7 +71,7 @@ export default function FeedCard({ onOpen, imageSrc, userName, contents, images}
 
 
     return (
-        <div className="rounded-2xl overflow-hidden mx-4 mb-4 border border-white/10">
+        <div className={containerClass}>
             <div className={cx("p-4", card, "cursor-pointer")} onClick={onOpen}>
                 <div className="flex items-center gap-3">
                 <Avatar label={imageSrc} badge />
