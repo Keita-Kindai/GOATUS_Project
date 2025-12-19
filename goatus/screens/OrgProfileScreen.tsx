@@ -50,7 +50,7 @@ export default function OrgProfileScreen({ onBack }: OrgProfileScreenProps) {
 
        <div className="mt-2">
          {/* onOpenは、プロフィールの戻る処理とは異なるため、ここではダミー関数を渡します */}
-         <FeedCard onOpen={onOpenDummy} />
+         <FeedCard onOpen={onOpenDummy} imageSrc={"/images/goatus_logo.png"} userName={"Goatus公式"} contents={"本日のおすすめ情報をお届け！！\n今回は私たちのアプリケーションがなんとGOOD DESIGN AWARDに選ばれました！！！！！　これは私たちの力だけはなく、普段からこのアプリを使用している皆様、そして活用してくれているスポーツ選手の皆様のおかげでもあります。心から本当に感謝を申し上げます。"} images={"/images/Award.png"}/>
        </div>
      </div>
    </div>
