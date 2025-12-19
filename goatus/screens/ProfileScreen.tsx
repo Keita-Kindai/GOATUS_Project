@@ -21,7 +21,7 @@ const profileData = {
 
 // タブ切り替えカード用コンポーネント
 function InfoTabsCard() {
-  const [activeInfoTab, setActiveInfoTab] = useState<"card" | "sponsor" | "achievements">("card");
+  const [activeInfoTab, setActiveInfoTab] = useState<"card" | "sponsor" | "achievements" | "portfolio">("card");
 
   return (
     <div className="rounded-2xl border border-white/10 overflow-hidden">
@@ -34,7 +34,7 @@ function InfoTabsCard() {
             activeInfoTab === "card" ? "text-white bg-white/5" : "text-white/60"
           )}
         >
-          <div className="flex items-center justify-center gap-1.5">
+          <div className="flex items-center justify-center gap-1.5 cursor-pointer">
             <CreditCard className="h-3.5 w-3.5" />
             <span>カード</span>
           </div>
@@ -49,7 +49,7 @@ function InfoTabsCard() {
             activeInfoTab === "sponsor" ? "text-white bg-white/5" : "text-white/60"
           )}
         >
-          <div className="flex items-center justify-center gap-1.5">
+          <div className="flex items-center justify-center gap-1.5 cursor-pointer">
             <Users className="h-3.5 w-3.5" />
             <span>スポンサー</span>
           </div>
@@ -64,12 +64,28 @@ function InfoTabsCard() {
             activeInfoTab === "achievements" ? "text-white bg-white/5" : "text-white/60"
           )}
         >
-          <div className="flex items-center justify-center gap-1.5">
+          <div className="flex items-center justify-center gap-1.5 cursor-pointer">
             <Trophy className="h-3.5 w-3.5" />
             <span>実績</span>
           </div>
           {activeInfoTab === "achievements" && (
             <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-400" />
+          )}
+        </button>
+
+        <button
+          onClick={() => setActiveInfoTab("portfolio")}
+          className={cx(
+            "flex-1 py-3 text-xs font-medium transition-colors relative",
+            activeInfoTab === "portfolio" ? "text-white bg-white/5" : "text-white/60"
+          )}
+        >
+          <div className="flex items-center justify-center gap-1.5 cursor-pointer">
+            <MapPin className="h-3.5 w-3.5" />
+            <span>私について</span>
+          </div>
+          {activeInfoTab === "portfolio" && (
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-sky-400" />
           )}
         </button>
       </div>
@@ -122,6 +138,19 @@ function InfoTabsCard() {
                 <div className="h-2 w-2 rounded-full bg-blue-400 flex-shrink-0" />
                 <span>全国大会 出場経験あり</span>
               </div>
+            </div>
+          </div>
+        )}
+
+        {activeInfoTab === "portfolio" && (
+          <div className="py-4">
+            <div className="flex items-center gap-2 mb-4">
+              <MapPin className="h-5 w-5 text-sky-400" />
+              <h4 className="font-semibold">私について</h4>
+            </div>
+            <div className="text-sm text-white/80">
+              <p className="mb-3">ここにより詳細な自己紹介や過去の成果、リンク、写真などを記入できます。編集ボタンで内容を更新してください。</p>
+              <button className="py-2 px-4 bg-sky-600 hover:bg-sky-700 rounded-lg text-sm font-semibold">編集する</button>
             </div>
           </div>
         )}
@@ -205,11 +234,6 @@ export default function ProfileScreen() {
 
           {/* タブ切り替えカード（カード・スポンサー・実績） */}
           <InfoTabsCard />
-        </div>
-
-        {/* NetApp 広告 */}
-        <div className="mt-6">
-          <AdBanner label="NetApp" />
         </div>
       </div>
     </div>
