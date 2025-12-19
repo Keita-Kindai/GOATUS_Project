@@ -1,7 +1,7 @@
 // src/components/sections/FeaturedEventsSection.tsx
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import { ChevronRight, Trophy, Calendar, MapPin, Fullscreen } from "lucide-react";
+import { ChevronRight, Trophy, Calendar, MapPin, Fullscreen, X } from "lucide-react";
 
 interface Event {
  id: string;
@@ -10,6 +10,8 @@ interface Event {
  date: Date;
  image: string;
  location: string;
+ link?: string; // 会場リンクや詳細ページのURL
+ participants?: string[]; // 登場選手など
  imageGradient?: string;
  isHighlight?: boolean;
 }
@@ -36,9 +38,13 @@ function getDaysUntil(date: Date): number {
 }
 
 export default function FeaturedEventsSection({ events }: FeaturedEventsSectionProps) {
+ const [openEvent, setOpenEvent] = useState<Event | null>(null);
  const sortedEvents = [...events].sort((a, b) => a.date.getTime() - b.date.getTime());
  const featuredEvent = sortedEvents[0]; // 直近のイベント
  const otherEvents = sortedEvents.slice(1, 4); // 残り3件
+
+ const openDetails = (event: Event) => setOpenEvent(event);
+ const closeDetails = () => setOpenEvent(null);
 
  return (
    <div className="mx-4 rounded-2xl overflow-hidden border border-amber-400/30 bg-gradient-to-b from-amber-400/10 to-transparent">
@@ -57,9 +63,7 @@ export default function FeaturedEventsSection({ events }: FeaturedEventsSectionP
      {featuredEvent && (
        <div className="p-3">
          <div className="rounded-xl overflow-hidden border border-white/10">
-           <div
-             className="h-32 w-full relative"
-           >
+           <button onClick={() => openDetails(featuredEvent)} className="h-32 w-full relative block text-left">
             <Image
               src="/images/images.jpeg"
               alt={featuredEvent.title}
@@ -89,7 +93,7 @@ export default function FeaturedEventsSection({ events }: FeaturedEventsSectionP
                <div className="text-[10px] text-white/70 mb-1">{featuredEvent.sport}</div>
                <div className="font-bold text-sm leading-tight">{featuredEvent.title}</div>
              </div>
-           </div>
+           </button>
           
            <div className="p-2.5 bg-white/5 flex items-center gap-4 text-xs text-white/70 z-30">
              <div className="flex items-center gap-1.5">
@@ -111,9 +115,10 @@ export default function FeaturedEventsSection({ events }: FeaturedEventsSectionP
          <div className="text-[10px] text-white/50 mb-2 px-1">その他の大会</div>
          <div className="flex gap-2 overflow-x-auto scrollbar-hide">
            {otherEvents.map((event) => (
-             <div
+             <button
                key={event.id}
-               className="flex-shrink-0 w-44 rounded-lg overflow-hidden border border-white/10 hover:border-white/20 transition-all"
+               onClick={() => openDetails(event)}
+               className="flex-shrink-0 w-44 rounded-lg overflow-hidden border border-white/10 hover:border-white/20 transition-all text-left"
              >
                <div
                  className="h-16 w-full relative"
@@ -139,11 +144,69 @@ export default function FeaturedEventsSection({ events }: FeaturedEventsSectionP
                  <div className="text-[10px] text-white/60 mb-0.5">{event.sport}</div>
                  <div className="text-xs font-semibold leading-tight line-clamp-2">{event.title}</div>
                </div>
-             </div>
+             </button>
            ))}
          </div>
        </div>
      )}
+
+     {/* 詳細モーダル */}
+    {openEvent && (
+      <div className="fixed inset-0 z-50 grid place-items-center px-4">
+        <div className="absolute inset-0 bg-black/60" onClick={closeDetails} />
+
+        <div className="relative w-full max-w-2xl rounded-xl bg-black/80 border border-white/10 p-4 sm:p-6 z-10 max-h-[90vh] overflow-y-auto">
+          <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-4">
+            <div className="w-full md:w-44 h-48 md:h-32 relative rounded-md overflow-hidden bg-white/5 md:shrink-0">
+              <Image src={"/images/soccer_1.jpg"} alt={openEvent.title} fill className="object-cover" />
+            </div>
+            <div className="w-full md:flex-1 md:pr-4">
+              <div className="text-xs text-white/60 mb-1">{openEvent.sport} • {formatDate(openEvent.date)}</div>
+              <h4 className="text-lg font-bold mb-2">{openEvent.title}</h4>
+              <div className="text-sm text-white/80 leading-relaxed mb-3">
+                会場: {openEvent.location}
+              </div>
+
+              {openEvent.participants && openEvent.participants.length > 0 && (
+                <div className="mb-3">
+                  <div className="text-sm font-semibold mb-1">出場選手</div>
+                  <ul className="list-disc list-inside text-sm text-white/80 space-y-1">
+                    {openEvent.participants.map((p) => (
+                      <li key={p}>{p}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-4">
+                {openEvent.link && (
+                  <a
+                    href={openEvent.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-full sm:w-auto text-center py-2 px-4 bg-amber-500 hover:bg-amber-600 rounded-md font-semibold text-sm"
+                  >
+                    会場のページを見る
+                  </a>
+                )}
+                <button
+                  onClick={closeDetails}
+                  className="w-full sm:w-auto py-2 px-4 bg-white/5 hover:bg-white/10 rounded-md text-sm"
+                >
+                  閉じる
+                </button>
+              </div>
+            </div>
+
+            
+          </div>
+
+          <button onClick={closeDetails} className="absolute top-3 right-3 p-2 rounded-full hover:bg-white/5">
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    )}
    </div>
  );
 }
