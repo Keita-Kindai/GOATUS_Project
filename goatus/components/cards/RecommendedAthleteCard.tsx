@@ -1,5 +1,6 @@
 // src/components/cards/RecommendedAthleteCard.tsx
 import React from "react";
+import Image from "next/image";
 import { Star, Users } from "lucide-react";
 
 interface RecommendedAthleteCardProps {
@@ -8,6 +9,7 @@ interface RecommendedAthleteCardProps {
  followerCount?: number;
  imageGradient?: string;
  isTeam?: boolean;
+ image: string,
  isRecommended?: boolean;
 }
 
@@ -16,6 +18,7 @@ export default function RecommendedAthleteCard({
  sport,
  followerCount,
  imageGradient = "linear-gradient(135deg,#1e3a8a,40%,#60a5fa)",
+ image,
  isTeam = false,
  isRecommended = false
 }: RecommendedAthleteCardProps) {
@@ -41,10 +44,16 @@ export default function RecommendedAthleteCard({
      {/* アスリート画像 */}
      <div
        className="aspect-[4/3] w-full relative"
-       style={{ background: imageGradient }}
+      //  style={{ background: imageGradient }}
      >
+       {/* <Image
+          src={image}
+          alt={name}
+          fill // 親要素いっぱいに広げる
+          className="object-cover" // アスペクト比を維持して切り抜き
+        /> */}
        {/* グラデーションオーバーレイ */}
-       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+       {/* <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" /> */}
       
        {/* フォロワー数（画像内） */}
        {followerCount !== undefined && (

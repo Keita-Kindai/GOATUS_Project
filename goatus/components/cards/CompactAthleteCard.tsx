@@ -1,5 +1,6 @@
 // src/components/cards/CompactAthleteCard.tsx
 import React from "react";
+import Image from "next/image";
 import { Star, Users } from "lucide-react";
 
 interface CompactAthleteCardProps {
@@ -8,6 +9,7 @@ interface CompactAthleteCardProps {
  followerCount?: number;
  imageGradient?: string;
  isTeam?: boolean;
+ image: string,
  isRecommended?: boolean;
  isNew?: boolean;
 }
@@ -18,6 +20,7 @@ export default function CompactAthleteCard({
  followerCount,
  imageGradient = "linear-gradient(135deg,#1e3a8a,40%,#60a5fa)",
  isTeam = false,
+ image,
  isRecommended = false,
  isNew = false,
 }: CompactAthleteCardProps) {
@@ -26,8 +29,14 @@ export default function CompactAthleteCard({
      {/* 画像エリア */}
      <div
        className="aspect-square w-full relative"
-       style={{ background: imageGradient }}
+      //  style={{ background: imageGradient }}
      >
+      <Image
+        src={image}
+        alt={name}
+        fill // 親要素いっぱいに広げる
+        className="object-cover" // アスペクト比を維持して切り抜き
+      />
        {/* バッジエリア */}
        <div className="absolute top-2 left-2 flex gap-1">
          {isRecommended && (
