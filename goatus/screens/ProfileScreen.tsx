@@ -38,7 +38,7 @@ function InfoTabsCard() {
         >
           <div className="flex items-center justify-center gap-1.5 cursor-pointer">
             <CreditCard className="h-3.5 w-3.5" />
-            <span>カード</span>
+            <span>ポスト</span>
           </div>
           {activeInfoTab === "card" && (
             <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-400" />
