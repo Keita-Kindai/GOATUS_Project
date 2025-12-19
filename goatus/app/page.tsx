@@ -85,7 +85,7 @@ export default function GoatusUiMock() {
       
       <div className="w-full max-w-[480px] h-full relative overflow-y-auto flex flex-col">
         
-        {active === "feed" && <FeedScreen onOpenOrg={() => setActive("org")} />}
+        {active === "feed" && <FeedScreen onOpenOrg={() => setActive("org")} onOpenProfile={(p) => { setProfileData({ accountName: p.accountName || p.username || "", residence: p.residence || "", bio: p.bio || "" }); setActive("mypage"); }} /> }
         {active === "discover" && <DiscoverScreen />}
 
         {/* 投稿画面 */}
