@@ -11,13 +11,13 @@ import { cx } from "../components/colors";
 const profileData = {
   username: "Official_GOATUS",
   name: "公式 GOATUS",
-  number: "#05",
+  number: "--",
   location: "--",
   school: "--",
   posts: 1,
   followers: 307,
   following: 339,
-  bio: "近畿大学情報学部\n社会情報学実習\n3B\n\n居住地: 大阪府",
+  bio: "GOATUS運営チーム \n拠点: 大阪府",
 };
 
 // タブ切り替えカード用コンポーネント
@@ -226,12 +226,12 @@ export default function ProfileScreen() {
                 </div>
               </div>
               
-              <div className="space-y-1">
+              {/* <div className="space-y-1">
                 <div className="font-semibold">{profileData.name}</div>
-                <div className="text-sm text-blue-400">{profileData.number}</div>
+                <div className="text-sm">{profileData.number}</div>
                 <div className="text-sm">{profileData.location}</div>
                 <div className="text-sm">{profileData.school}</div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
