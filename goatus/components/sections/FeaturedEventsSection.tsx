@@ -1,12 +1,14 @@
 // src/components/sections/FeaturedEventsSection.tsx
 import React from "react";
-import { ChevronRight, Trophy, Calendar, MapPin } from "lucide-react";
+import Image from "next/image";
+import { ChevronRight, Trophy, Calendar, MapPin, Fullscreen } from "lucide-react";
 
 interface Event {
  id: string;
  title: string;
  sport: string;
  date: Date;
+ image: string;
  location: string;
  imageGradient?: string;
  isHighlight?: boolean;
@@ -57,8 +59,13 @@ export default function FeaturedEventsSection({ events }: FeaturedEventsSectionP
          <div className="rounded-xl overflow-hidden border border-white/10">
            <div
              className="h-32 w-full relative"
-             style={{ background: featuredEvent.imageGradient }}
            >
+            <Image
+              src="/images/images.jpeg"
+              alt={featuredEvent.title}
+              fill // 親要素いっぱいに広げる
+              className="object-cover" // アスペクト比を維持して切り抜き
+            />
              {/* 残り日数（大きめ） */}
              <div className="absolute top-3 left-3">
                <span className="text-sm px-2.5 py-1 rounded-lg bg-red-500 text-white font-bold shadow-lg">
@@ -78,13 +85,13 @@ export default function FeaturedEventsSection({ events }: FeaturedEventsSectionP
                </div>
              )}
 
-             <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
+             <div className="absolute bottom-0 left-0 right-0 p-3">
                <div className="text-[10px] text-white/70 mb-1">{featuredEvent.sport}</div>
                <div className="font-bold text-sm leading-tight">{featuredEvent.title}</div>
              </div>
            </div>
           
-           <div className="p-2.5 bg-white/5 flex items-center gap-4 text-xs text-white/70">
+           <div className="p-2.5 bg-white/5 flex items-center gap-4 text-xs text-white/70 z-30">
              <div className="flex items-center gap-1.5">
                <Calendar className="h-3.5 w-3.5" />
                <span>{formatDate(featuredEvent.date)}</span>
@@ -110,8 +117,14 @@ export default function FeaturedEventsSection({ events }: FeaturedEventsSectionP
              >
                <div
                  className="h-16 w-full relative"
-                 style={{ background: event.imageGradient }}
+                //  style={{ background: event.imageGradient }}s
                >
+                 <Image
+                    src={event.image}
+                    alt={event.title}
+                    fill // 親要素いっぱいに広げる
+                    className="object-cover" // アスペクト比を維持して切り抜き
+                  />
                  <div className="absolute top-1.5 left-1.5">
                    <span className={`text-[9px] px-1.5 py-0.5 rounded ${
                      getDaysUntil(event.date) <= 7
